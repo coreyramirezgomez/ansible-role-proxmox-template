@@ -1,0 +1,15 @@
+---
+- name: Install Python Requirements
+  package:
+    name: "{{ pkg }}"
+    state: present
+  with_items: "{{ proxmox_template_required_packages }}"
+  loop_control:
+    loop_var: "pkg"
+- name: Install Python Pacakge Requirements
+  pip:
+    executable: pip3
+    name: "{{ pip_pkg }}"
+  with_items: "{{ proxmox_template_required_pip_packages }}"
+  loop_control:
+    loop_var: "pip_pkg"

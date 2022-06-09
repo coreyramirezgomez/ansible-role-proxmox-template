@@ -1,0 +1,53 @@
+---
+# defaults file for ansible-role-proxmox-template
+# Remove downloaded/customized base image
+proxmox_template_cleanup: true
+
+### Proxmox host handling
+## Defaults
+proxmox_template_target_node: "{{ inventory_hostname }}"
+proxmox_template_target_host: "{{ inventory_hostname }}"
+## Requred
+# proxmox_template_api_token_id: ""
+# proxmox_template_api_token_secret: ""
+# proxmox_template_api_user: "root@pam"
+
+### Base image handling
+## Defaults
+proxmox_template_base_image_distribution: "jammy"
+proxmox_template_base_image_name: "{{ proxmox_template_base_image_distribution }}-server-cloudimg-amd64.img"
+proxmox_template_base_image_url: "https://cloud-images.ubuntu.com/{{ proxmox_template_base_image_distribution }}/current/{{ proxmox_template_base_image_name }}"
+proxmox_template_base_image_timezone: "UTC"
+proxmox_template_base_image_install_pkgs:
+  - "qemu-guest-agent"
+proxmox_template_base_image_uninstall_pkgs: []
+## Required
+
+### cloud-init handling
+## Defaults
+proxmox_template_configure_ci: true
+# proxmox_template_ci_user: "toor"
+# proxmox_template_ci_password: "toor"
+# proxmox_template_ci_sshkeys: "[public key content here]"
+# proxmox_template_ci_nameservers: ""
+# proxmox_template_ci_searchdomains: ""
+# proxmox_template_ci_type: ""
+proxmox_template_ci_ipconfig:
+  ipconfig0: "ip=dhcp,ip6=dhcp"
+# See https://github.com/chris2k20/proxmox-cloud-init/blob/main/cloud-init.yml for an example
+# Overrides all other ci configurations and must already exist on target.
+# proxmox_template_ci_custom: "local:snippets/cloudinit.yaml"
+## Required
+
+### Template VM handling
+## Defaults
+proxmox_template_vm_cores: 2
+proxmox_template_vm_sockets: 1
+proxmox_template_vm_memory: 2048
+proxmox_template_vm_format: "raw"
+proxmox_template_vm_network:
+  net0: "virtio,bridge=vmbr0"
+## Requred
+# proxmox_template_vm_hostname: "template"
+# proxmox_template_vm_storage: "local"
+# proxmox_template_vm_id: 999

@@ -1,0 +1,50 @@
+---
+# tasks file for ansible-role-proxmox-template
+- name: Include requirements.yml tasks
+  include_tasks: requirements.yml
+- name: Download base image
+  get_url:
+    url: "{{ proxmox_template_base_image_url }}"
+    dest: "/tmp/{{ proxmox_template_base_image_name }}"
+- name: Include virt-customize.yml tasks
+  include_tasks: "virt-customize.yml"
+- name: Create Base VM
+  proxmox_kvm:
+    api_token_id: "{{ proxmox_template_api_token_id }}"
+    api_user: "{{ proxmox_template_api_user }}"
+    api_token_secret: "{{ proxmox_template_api_token_secret }}"
+    api_host: "{{ proxmox_template_target_host }}"
+    node: "{{ proxmox_template_target_node | default(proxmox_template_target_host, true) }}"
+    name: "{{ proxmox_template_vm_hostname }}"
+    vmid: "{{ proxmox_template_vm_id }}"
+    update: no
+    cores: "{{ proxmox_template_vm_cores | default('2', true) }}"
+    sockets: "{{ proxmox_template_vm_sockets | default('1', true) }}"
+    memory: "{{ proxmox_template_vm_memory | default('2048', true) }}"
+    net: "{{ proxmox_template_vm_network }}"
+    format: "{{ proxmox_template_vm_format }}"
+    storage: "{{ proxmox_template_vm_storage }}"
+    vga: serial0
+    state: present
+    agent: yes
+- name: Include base-image.yml tasks
+  include_tasks: base-image.yml
+- name: Include cloud-init.yml tasks
+  include_tasks: cloud-init.yml
+  when: proxmox_template_configure_ci
+- name: Create template
+  proxmox_kvm:
+    api_token_id: "{{ proxmox_template_api_token_id }}"
+    api_user: "{{ proxmox_template_api_user }}"
+    api_token_secret: "{{ proxmox_template_api_token_secret }}"
+    api_host: "{{ proxmox_template_target_host }}"
+    node: "{{ proxmox_template_target_node | default(proxmox_template_target_host, true) }}"
+    name: "{{ proxmox_template_vm_hostname }}"
+    vmid: "{{ proxmox_template_vm_id }}"
+    update: yes
+    template: yes
+- name: Cleanup
+  file:
+    path: "/tmp/{{ proxmox_template_base_image_name }}"
+    state: absent
+  when: proxmox_template_cleanup

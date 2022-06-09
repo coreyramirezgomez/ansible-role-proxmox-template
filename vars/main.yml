@@ -1,0 +1,9 @@
+---
+# vars file for ansible-role-proxmox-template
+proxmox_template_required_packages:
+  - "python3"
+  - "python3-pip"
+  - "libguestfs-tools"
+proxmox_template_required_pip_packages:
+  - "requests"
+  - "proxmoxer"

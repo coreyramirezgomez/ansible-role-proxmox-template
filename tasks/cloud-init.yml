@@ -1,0 +1,102 @@
+---
+- name: Attach cloud-init drive
+  command: "qm set {{ proxmox_template_vm_id }} --ide2 {{ proxmox_template_vm_storage }}:cloudinit"
+- name: Configure cloud-init custom file
+  proxmox_kvm:
+    api_token_id: "{{ proxmox_template_api_token_id }}"
+    api_user: "{{ proxmox_template_api_user }}"
+    api_token_secret: "{{ proxmox_template_api_token_secret }}"
+    api_host: "{{ proxmox_template_target_host }}"
+    node: "{{ proxmox_template_target_node | default(proxmox_template_target_host, true) }}"
+    name: "{{ proxmox_template_vm_hostname }}"
+    vmid: "{{ proxmox_template_vm_id }}"
+    update: yes
+    cicustom: "{{ proxmox_template_ci_custom }}"
+  when: proxmox_template_ci_custom is defined
+- name: Configure cloud-init individual options
+  block:
+    - name: Configure cloud-init user
+      proxmox_kvm:
+        api_token_id: "{{ proxmox_template_api_token_id }}"
+        api_user: "{{ proxmox_template_api_user }}"
+        api_token_secret: "{{ proxmox_template_api_token_secret }}"
+        api_host: "{{ proxmox_template_target_host }}"
+        node: "{{ proxmox_template_target_node | default(proxmox_template_target_host, true) }}"
+        name: "{{ proxmox_template_vm_hostname }}"
+        vmid: "{{ proxmox_template_vm_id }}"
+        update: yes
+        ciuser: "{{ proxmox_template_ci_user }}"
+      when: proxmox_template_ci_user is defined
+    - name: Configure cloud-init password
+      proxmox_kvm:
+        api_token_id: "{{ proxmox_template_api_token_id }}"
+        api_user: "{{ proxmox_template_api_user }}"
+        api_token_secret: "{{ proxmox_template_api_token_secret }}"
+        api_host: "{{ proxmox_template_target_host }}"
+        node: "{{ proxmox_template_target_node | default(proxmox_template_target_host, true) }}"
+        name: "{{ proxmox_template_vm_hostname }}"
+        vmid: "{{ proxmox_template_vm_id }}"
+        update: yes
+        cipassword: "{{ proxmox_template_ci_password }}"
+      when: proxmox_template_ci_password is defined
+    - name: Configure cloud-init type
+      proxmox_kvm:
+        api_token_id: "{{ proxmox_template_api_token_id }}"
+        api_user: "{{ proxmox_template_api_user }}"
+        api_token_secret: "{{ proxmox_template_api_token_secret }}"
+        api_host: "{{ proxmox_template_target_host }}"
+        node: "{{ proxmox_template_target_node | default(proxmox_template_target_host, true) }}"
+        name: "{{ proxmox_template_vm_hostname }}"
+        vmid: "{{ proxmox_template_vm_id }}"
+        update: yes
+        citype: "{{ proxmox_template_ci_type }}"
+      when: proxmox_template_ci_type is defined
+    - name: Configure cloud-init sshkeys
+      proxmox_kvm:
+        api_token_id: "{{ proxmox_template_api_token_id }}"
+        api_user: "{{ proxmox_template_api_user }}"
+        api_token_secret: "{{ proxmox_template_api_token_secret }}"
+        api_host: "{{ proxmox_template_target_host }}"
+        node: "{{ proxmox_template_target_node | default(proxmox_template_target_host, true) }}"
+        name: "{{ proxmox_template_vm_hostname }}"
+        vmid: "{{ proxmox_template_vm_id }}"
+        update: yes
+        sshkeys: "{{ proxmox_template_ci_sshkeys }}"
+      when: proxmox_template_ci_sshkeys is defined
+    - name: Configure cloud-init nameservers
+      proxmox_kvm:
+        api_token_id: "{{ proxmox_template_api_token_id }}"
+        api_user: "{{ proxmox_template_api_user }}"
+        api_token_secret: "{{ proxmox_template_api_token_secret }}"
+        api_host: "{{ proxmox_template_target_host }}"
+        node: "{{ proxmox_template_target_node | default(proxmox_template_target_host, true) }}"
+        name: "{{ proxmox_template_vm_hostname }}"
+        vmid: "{{ proxmox_template_vm_id }}"
+        update: yes
+        nameservers: "{{ proxmox_template_ci_nameservers }}"
+      when: proxmox_template_ci_nameservers is defined
+    - name: Configure cloud-init searchdomains
+      proxmox_kvm:
+        api_token_id: "{{ proxmox_template_api_token_id }}"
+        api_user: "{{ proxmox_template_api_user }}"
+        api_token_secret: "{{ proxmox_template_api_token_secret }}"
+        api_host: "{{ proxmox_template_target_host }}"
+        node: "{{ proxmox_template_target_node | default(proxmox_template_target_host, true) }}"
+        name: "{{ proxmox_template_vm_hostname }}"
+        vmid: "{{ proxmox_template_vm_id }}"
+        update: yes
+        searchdomains: "{{ proxmox_template_ci_searchdomains }}"
+      when: proxmox_template_ci_searchdomains is defined
+    - name: Configure cloud-init ipconfig
+      proxmox_kvm:
+        api_token_id: "{{ proxmox_template_api_token_id }}"
+        api_user: "{{ proxmox_template_api_user }}"
+        api_token_secret: "{{ proxmox_template_api_token_secret }}"
+        api_host: "{{ proxmox_template_target_host }}"
+        node: "{{ proxmox_template_target_node | default(proxmox_template_target_host, true) }}"
+        name: "{{ proxmox_template_vm_hostname }}"
+        vmid: "{{ proxmox_template_vm_id }}"
+        update: yes
+        ipconfig: "{{ proxmox_template_ci_ipconfig }}"
+      when: proxmox_template_ci_ipconfig is defined
+  when: proxmox_template_ci_custom is not defined

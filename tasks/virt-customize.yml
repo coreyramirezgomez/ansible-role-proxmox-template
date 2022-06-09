@@ -1,0 +1,27 @@
+- name: virt-customize install packages base image
+  command: |
+    virt-customize -a /tmp/{{ proxmox_template_base_image_name }} \
+    --install \
+    {% for pkg in proxmox_template_base_image_install_pkgs %}
+        {{ pkg }}{%- if not loop.last %} \{% endif %}
+    {% endfor %}
+  when:
+    - proxmox_template_base_image_install_pkgs is defined
+    - proxmox_template_base_image_install_pkgs | type_debug == 'list'
+    - proxmox_template_base_image_install_pkgs | length > 0
+- name: virt-customize uninstall packages base image
+  command: |
+    virt-customize -a /tmp/{{ proxmox_template_base_image_name }} \
+    --uninstall \
+    {% for pkg in proxmox_template_base_image_uninstall_pkgs %}
+        {{ pkg }}{%- if not loop.last %} \{% endif %}
+    {% endfor %}
+  when:
+    - proxmox_template_base_image_uninstall_pkgs is defined
+    - proxmox_template_base_image_uninstall_pkgs | type_debug == 'list'
+    - proxmox_template_base_image_uninstall_pkgs | length > 0
+- name: virt-customize timezone for base image
+  command: |
+    virt-customize -a /tmp/{{ proxmox_template_base_image_name }} \
+    --timezone {{ proxmox_template_base_image_timezone }}
+  when: proxmox_template_base_image_timezone is defined
