@@ -8,6 +8,7 @@ proxmox_template_cleanup: true
 proxmox_template_target_node: "{{ inventory_hostname }}"
 proxmox_template_target_host: "{{ inventory_hostname }}"
 ## Requred
+# proxmox_root_user_password: ""
 # proxmox_template_api_token_id: ""
 # proxmox_template_api_token_secret: ""
 # proxmox_template_api_user: "root@pam"

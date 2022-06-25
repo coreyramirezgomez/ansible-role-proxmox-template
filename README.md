@@ -27,9 +27,17 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: proxmox_hosts
       roles:
-        - role: ansible-role-proxmox-template
-          proxmox_template_vm_hostname: kamino
-          proxmox_template_vm_storage: local
+        - role: coreyramirezgomez.proxmox_vm_templater
+          # Required
+          proxmox_template_target_host: proxmox.example.com
+          proxmox_root_password: 'password' # Required to create VM
+          proxmox_template_api_user: "root@pam"
+          proxmox_template_api_token_id: "ansible"
+          proxmox_template_api_token_secret: 'token'
+          proxmox_template_vm_hostname: template
+          proxmox_template_vm_storage: local-lvm
+          # Optional - see defaults/main.yml
+          proxmox_template_target_node: proxmox
           proxmox_template_configure_ci: true
           proxmox_template_ci_user: admin
           ...

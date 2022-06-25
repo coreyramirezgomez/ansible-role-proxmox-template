@@ -10,9 +10,8 @@
   include_tasks: "virt-customize.yml"
 - name: Create Base VM
   proxmox_kvm:
-    api_token_id: "{{ proxmox_template_api_token_id }}"
-    api_user: "{{ proxmox_template_api_user }}"
-    api_token_secret: "{{ proxmox_template_api_token_secret }}"
+    api_user: "root@pam" # Only root + password can create a VM.
+    api_password: "{{ proxmox_root_user_password }}"
     api_host: "{{ proxmox_template_target_host }}"
     node: "{{ proxmox_template_target_node | default(proxmox_template_target_host, true) }}"
     name: "{{ proxmox_template_vm_hostname }}"
