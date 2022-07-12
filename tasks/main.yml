@@ -11,18 +11,20 @@
 - name: Create Base VM
   proxmox_kvm:
     api_user: "root@pam" # Only root + password can create a VM.
-    api_password: "{{ proxmox_root_user_password }}"
+    api_password: "{{ proxmox_template_root_user_password }}"
     api_host: "{{ proxmox_template_target_host }}"
-    node: "{{ proxmox_template_target_node | default(proxmox_template_target_host, true) }}"
+    node: "{{ proxmox_template_target_node }}"
     name: "{{ proxmox_template_vm_hostname }}"
     vmid: "{{ proxmox_template_vm_id }}"
     update: no
-    cores: "{{ proxmox_template_vm_cores | default('2', true) }}"
-    sockets: "{{ proxmox_template_vm_sockets | default('1', true) }}"
-    memory: "{{ proxmox_template_vm_memory | default('2048', true) }}"
+    cores: "{{ proxmox_template_vm_cores }}"
+    sockets: "{{ proxmox_template_vm_sockets }}"
+    memory: "{{ proxmox_template_vm_memory }}"
     net: "{{ proxmox_template_vm_network }}"
     format: "{{ proxmox_template_vm_format }}"
     storage: "{{ proxmox_template_vm_storage }}"
+    serial:
+      serial0: "socket"
     vga: serial0
     state: present
     agent: yes
@@ -37,7 +39,7 @@
     api_user: "{{ proxmox_template_api_user }}"
     api_token_secret: "{{ proxmox_template_api_token_secret }}"
     api_host: "{{ proxmox_template_target_host }}"
-    node: "{{ proxmox_template_target_node | default(proxmox_template_target_host, true) }}"
+    node: "{{ proxmox_template_target_node }}"
     name: "{{ proxmox_template_vm_hostname }}"
     vmid: "{{ proxmox_template_vm_id }}"
     update: yes

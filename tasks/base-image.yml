@@ -9,7 +9,7 @@
     api_user: "{{ proxmox_template_api_user }}"
     api_token_secret: "{{ proxmox_template_api_token_secret }}"
     api_host: "{{ proxmox_template_target_host }}"
-    node: "{{ proxmox_template_target_node | default(proxmox_template_target_host, true) }}"
+    node: "{{ proxmox_template_target_node }}"
     name: "{{ proxmox_template_vm_hostname }}"
     vmid: "{{ proxmox_template_vm_id }}"
     update: yes

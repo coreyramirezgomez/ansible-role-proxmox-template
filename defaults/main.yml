@@ -5,10 +5,10 @@ proxmox_template_cleanup: true
 
 ### Proxmox host handling
 ## Defaults
-proxmox_template_target_node: "{{ inventory_hostname }}"
+proxmox_template_target_node: "{{ inventory_hostname_short }}"
 proxmox_template_target_host: "{{ inventory_hostname }}"
 ## Requred
-# proxmox_root_user_password: ""
+# proxmox_template_root_user_password: ""
 # proxmox_template_api_token_id: ""
 # proxmox_template_api_token_secret: ""
 # proxmox_template_api_user: "root@pam"
@@ -18,7 +18,7 @@ proxmox_template_target_host: "{{ inventory_hostname }}"
 proxmox_template_base_image_distribution: "jammy"
 proxmox_template_base_image_name: "{{ proxmox_template_base_image_distribution }}-server-cloudimg-amd64.img"
 proxmox_template_base_image_url: "https://cloud-images.ubuntu.com/{{ proxmox_template_base_image_distribution }}/current/{{ proxmox_template_base_image_name }}"
-proxmox_template_base_image_timezone: "UTC"
+# proxmox_template_base_image_commands: ""
 proxmox_template_base_image_install_pkgs:
   - "qemu-guest-agent"
 proxmox_template_base_image_uninstall_pkgs: []

@@ -20,8 +20,7 @@
     - proxmox_template_base_image_uninstall_pkgs is defined
     - proxmox_template_base_image_uninstall_pkgs | type_debug == 'list'
     - proxmox_template_base_image_uninstall_pkgs | length > 0
-- name: virt-customize timezone for base image
+- name: virt-customize commands
   command: |
-    virt-customize -a /tmp/{{ proxmox_template_base_image_name }} \
-    --timezone {{ proxmox_template_base_image_timezone }}
-  when: proxmox_template_base_image_timezone is defined
+    {{ proxmox_template_base_image_commands }}
+  when: proxmox_template_base_image_commands is defined
