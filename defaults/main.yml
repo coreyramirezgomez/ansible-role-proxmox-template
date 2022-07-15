@@ -15,8 +15,7 @@ proxmox_template_target_host: "{{ inventory_hostname }}"
 
 ### Base image handling
 ## Defaults
-proxmox_template_base_image_distribution: "jammy"
-proxmox_template_base_image_name: "{{ proxmox_template_base_image_distribution }}-server-cloudimg-amd64.img"
+proxmox_template_base_image_name: "jammy-server-cloudimg-amd64.img"
 proxmox_template_base_image_url: "https://cloud-images.ubuntu.com/{{ proxmox_template_base_image_distribution }}/current/{{ proxmox_template_base_image_name }}"
 # proxmox_template_base_image_commands: ""
 proxmox_template_base_image_install_pkgs:
