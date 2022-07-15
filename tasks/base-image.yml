@@ -1,17 +1,17 @@
 ---
 - name: Import base image disk
-  command: "qm importdisk {{ proxmox_template_vm_id }} /tmp/{{ proxmox_template_base_image_name }} {{ proxmox_template_vm_storage }}"
+  command: "qm importdisk {{ proxmox_vm_templater_vm_id }} /tmp/{{ proxmox_vm_templater_base_image_name }} {{ proxmox_vm_templater_vm_storage }}"
 - name: Attach base image disk
-  command: "qm set {{ proxmox_template_vm_id }} --scsihw virtio-scsi-pci --scsi0 {{ proxmox_template_vm_storage }}:vm-{{ proxmox_template_vm_id }}-disk-0"
+  command: "qm set {{ proxmox_vm_templater_vm_id }} --scsihw virtio-scsi-pci --scsi0 {{ proxmox_vm_templater_vm_storage }}:vm-{{ proxmox_vm_templater_vm_id }}-disk-0"
 - name: Set base image disk as bootdisk
   proxmox_kvm:
-    api_token_id: "{{ proxmox_template_api_token_id }}"
-    api_user: "{{ proxmox_template_api_user }}"
-    api_token_secret: "{{ proxmox_template_api_token_secret }}"
-    api_host: "{{ proxmox_template_target_host }}"
-    node: "{{ proxmox_template_target_node }}"
-    name: "{{ proxmox_template_vm_hostname }}"
-    vmid: "{{ proxmox_template_vm_id }}"
+    api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
+    api_user: "{{ proxmox_vm_templater_api_user }}"
+    api_token_secret: "{{ proxmox_vm_templater_api_token_secret }}"
+    api_host: "{{ proxmox_vm_templater_target_host }}"
+    node: "{{ proxmox_vm_templater_target_node }}"
+    name: "{{ proxmox_vm_templater_vm_hostname }}"
+    vmid: "{{ proxmox_vm_templater_vm_id }}"
     update: yes
     boot: "c"
     bootdisk: "scsi0"

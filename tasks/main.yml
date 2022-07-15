@@ -4,25 +4,25 @@
   include_tasks: requirements.yml
 - name: Download base image
   get_url:
-    url: "{{ proxmox_template_base_image_url }}"
-    dest: "/tmp/{{ proxmox_template_base_image_name }}"
+    url: "{{ proxmox_vm_templater_base_image_url }}"
+    dest: "/tmp/{{ proxmox_vm_templater_base_image_name }}"
 - name: Include virt-customize.yml tasks
   include_tasks: "virt-customize.yml"
 - name: Create Base VM
   proxmox_kvm:
     api_user: "root@pam" # Only root + password can create a VM.
-    api_password: "{{ proxmox_template_root_user_password }}"
-    api_host: "{{ proxmox_template_target_host }}"
-    node: "{{ proxmox_template_target_node }}"
-    name: "{{ proxmox_template_vm_hostname }}"
-    vmid: "{{ proxmox_template_vm_id }}"
+    api_password: "{{ proxmox_vm_templater_root_user_password }}"
+    api_host: "{{ proxmox_vm_templater_target_host }}"
+    node: "{{ proxmox_vm_templater_target_node }}"
+    name: "{{ proxmox_vm_templater_vm_hostname }}"
+    vmid: "{{ proxmox_vm_templater_vm_id }}"
     update: no
-    cores: "{{ proxmox_template_vm_cores }}"
-    sockets: "{{ proxmox_template_vm_sockets }}"
-    memory: "{{ proxmox_template_vm_memory }}"
-    net: "{{ proxmox_template_vm_network }}"
-    format: "{{ proxmox_template_vm_format }}"
-    storage: "{{ proxmox_template_vm_storage }}"
+    cores: "{{ proxmox_vm_templater_vm_cores }}"
+    sockets: "{{ proxmox_vm_templater_vm_sockets }}"
+    memory: "{{ proxmox_vm_templater_vm_memory }}"
+    net: "{{ proxmox_vm_templater_vm_network }}"
+    format: "{{ proxmox_vm_templater_vm_format }}"
+    storage: "{{ proxmox_vm_templater_vm_storage }}"
     serial:
       serial0: "socket"
     vga: serial0
@@ -32,20 +32,20 @@
   include_tasks: base-image.yml
 - name: Include cloud-init.yml tasks
   include_tasks: cloud-init.yml
-  when: proxmox_template_configure_ci
+  when: proxmox_vm_templater_configure_ci
 - name: Create template
   proxmox_kvm:
-    api_token_id: "{{ proxmox_template_api_token_id }}"
-    api_user: "{{ proxmox_template_api_user }}"
-    api_token_secret: "{{ proxmox_template_api_token_secret }}"
-    api_host: "{{ proxmox_template_target_host }}"
-    node: "{{ proxmox_template_target_node }}"
-    name: "{{ proxmox_template_vm_hostname }}"
-    vmid: "{{ proxmox_template_vm_id }}"
+    api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
+    api_user: "{{ proxmox_vm_templater_api_user }}"
+    api_token_secret: "{{ proxmox_vm_templater_api_token_secret }}"
+    api_host: "{{ proxmox_vm_templater_target_host }}"
+    node: "{{ proxmox_vm_templater_target_node }}"
+    name: "{{ proxmox_vm_templater_vm_hostname }}"
+    vmid: "{{ proxmox_vm_templater_vm_id }}"
     update: yes
     template: yes
 - name: Cleanup
   file:
-    path: "/tmp/{{ proxmox_template_base_image_name }}"
+    path: "/tmp/{{ proxmox_vm_templater_base_image_name }}"
     state: absent
-  when: proxmox_template_cleanup
+  when: proxmox_vm_templater_cleanup

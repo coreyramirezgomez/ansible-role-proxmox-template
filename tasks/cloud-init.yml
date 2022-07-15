@@ -1,99 +1,99 @@
 ---
 - name: Attach cloud-init drive
-  command: "qm set {{ proxmox_template_vm_id }} --ide2 {{ proxmox_template_vm_storage }}:cloudinit"
+  command: "qm set {{ proxmox_vm_templater_vm_id }} --ide2 {{ proxmox_vm_templater_vm_storage }}:cloudinit"
 - name: Configure cloud-init custom file
   proxmox_kvm:
-    api_token_id: "{{ proxmox_template_api_token_id }}"
-    api_user: "{{ proxmox_template_api_user }}"
-    api_token_secret: "{{ proxmox_template_api_token_secret }}"
-    api_host: "{{ proxmox_template_target_host }}"
-    node: "{{ proxmox_template_target_node }}"
-    name: "{{ proxmox_template_vm_hostname }}"
-    vmid: "{{ proxmox_template_vm_id }}"
+    api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
+    api_user: "{{ proxmox_vm_templater_api_user }}"
+    api_token_secret: "{{ proxmox_vm_templater_api_token_secret }}"
+    api_host: "{{ proxmox_vm_templater_target_host }}"
+    node: "{{ proxmox_vm_templater_target_node }}"
+    name: "{{ proxmox_vm_templater_vm_hostname }}"
+    vmid: "{{ proxmox_vm_templater_vm_id }}"
     update: yes
-    cicustom: "{{ proxmox_template_ci_custom }}"
-  when: proxmox_template_ci_custom is defined
+    cicustom: "{{ proxmox_vm_templater_ci_custom }}"
+  when: proxmox_vm_templater_ci_custom is defined
 - name: Configure cloud-init user
   proxmox_kvm:
-    api_token_id: "{{ proxmox_template_api_token_id }}"
-    api_user: "{{ proxmox_template_api_user }}"
-    api_token_secret: "{{ proxmox_template_api_token_secret }}"
-    api_host: "{{ proxmox_template_target_host }}"
-    node: "{{ proxmox_template_target_node }}"
-    name: "{{ proxmox_template_vm_hostname }}"
-    vmid: "{{ proxmox_template_vm_id }}"
+    api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
+    api_user: "{{ proxmox_vm_templater_api_user }}"
+    api_token_secret: "{{ proxmox_vm_templater_api_token_secret }}"
+    api_host: "{{ proxmox_vm_templater_target_host }}"
+    node: "{{ proxmox_vm_templater_target_node }}"
+    name: "{{ proxmox_vm_templater_vm_hostname }}"
+    vmid: "{{ proxmox_vm_templater_vm_id }}"
     update: yes
-    ciuser: "{{ proxmox_template_ci_user }}"
-  when: proxmox_template_ci_user is defined
+    ciuser: "{{ proxmox_vm_templater_ci_user }}"
+  when: proxmox_vm_templater_ci_user is defined
 - name: Configure cloud-init password
   proxmox_kvm:
-    api_token_id: "{{ proxmox_template_api_token_id }}"
-    api_user: "{{ proxmox_template_api_user }}"
-    api_token_secret: "{{ proxmox_template_api_token_secret }}"
-    api_host: "{{ proxmox_template_target_host }}"
-    node: "{{ proxmox_template_target_node }}"
-    name: "{{ proxmox_template_vm_hostname }}"
-    vmid: "{{ proxmox_template_vm_id }}"
+    api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
+    api_user: "{{ proxmox_vm_templater_api_user }}"
+    api_token_secret: "{{ proxmox_vm_templater_api_token_secret }}"
+    api_host: "{{ proxmox_vm_templater_target_host }}"
+    node: "{{ proxmox_vm_templater_target_node }}"
+    name: "{{ proxmox_vm_templater_vm_hostname }}"
+    vmid: "{{ proxmox_vm_templater_vm_id }}"
     update: yes
-    cipassword: "{{ proxmox_template_ci_password }}"
-  when: proxmox_template_ci_password is defined
+    cipassword: "{{ proxmox_vm_templater_ci_password }}"
+  when: proxmox_vm_templater_ci_password is defined
 - name: Configure cloud-init type
   proxmox_kvm:
-    api_token_id: "{{ proxmox_template_api_token_id }}"
-    api_user: "{{ proxmox_template_api_user }}"
-    api_token_secret: "{{ proxmox_template_api_token_secret }}"
-    api_host: "{{ proxmox_template_target_host }}"
-    node: "{{ proxmox_template_target_node }}"
-    name: "{{ proxmox_template_vm_hostname }}"
-    vmid: "{{ proxmox_template_vm_id }}"
+    api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
+    api_user: "{{ proxmox_vm_templater_api_user }}"
+    api_token_secret: "{{ proxmox_vm_templater_api_token_secret }}"
+    api_host: "{{ proxmox_vm_templater_target_host }}"
+    node: "{{ proxmox_vm_templater_target_node }}"
+    name: "{{ proxmox_vm_templater_vm_hostname }}"
+    vmid: "{{ proxmox_vm_templater_vm_id }}"
     update: yes
-    citype: "{{ proxmox_template_ci_type }}"
-  when: proxmox_template_ci_type is defined
+    citype: "{{ proxmox_vm_templater_ci_type }}"
+  when: proxmox_vm_templater_ci_type is defined
 - name: Configure cloud-init sshkeys
   proxmox_kvm:
-    api_token_id: "{{ proxmox_template_api_token_id }}"
-    api_user: "{{ proxmox_template_api_user }}"
-    api_token_secret: "{{ proxmox_template_api_token_secret }}"
-    api_host: "{{ proxmox_template_target_host }}"
-    node: "{{ proxmox_template_target_node }}"
-    name: "{{ proxmox_template_vm_hostname }}"
-    vmid: "{{ proxmox_template_vm_id }}"
+    api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
+    api_user: "{{ proxmox_vm_templater_api_user }}"
+    api_token_secret: "{{ proxmox_vm_templater_api_token_secret }}"
+    api_host: "{{ proxmox_vm_templater_target_host }}"
+    node: "{{ proxmox_vm_templater_target_node }}"
+    name: "{{ proxmox_vm_templater_vm_hostname }}"
+    vmid: "{{ proxmox_vm_templater_vm_id }}"
     update: yes
-    sshkeys: "{{ proxmox_template_ci_sshkeys }}"
-  when: proxmox_template_ci_sshkeys is defined
+    sshkeys: "{{ proxmox_vm_templater_ci_sshkeys }}"
+  when: proxmox_vm_templater_ci_sshkeys is defined
 - name: Configure cloud-init nameservers
   proxmox_kvm:
-    api_token_id: "{{ proxmox_template_api_token_id }}"
-    api_user: "{{ proxmox_template_api_user }}"
-    api_token_secret: "{{ proxmox_template_api_token_secret }}"
-    api_host: "{{ proxmox_template_target_host }}"
-    node: "{{ proxmox_template_target_node }}"
-    name: "{{ proxmox_template_vm_hostname }}"
-    vmid: "{{ proxmox_template_vm_id }}"
+    api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
+    api_user: "{{ proxmox_vm_templater_api_user }}"
+    api_token_secret: "{{ proxmox_vm_templater_api_token_secret }}"
+    api_host: "{{ proxmox_vm_templater_target_host }}"
+    node: "{{ proxmox_vm_templater_target_node }}"
+    name: "{{ proxmox_vm_templater_vm_hostname }}"
+    vmid: "{{ proxmox_vm_templater_vm_id }}"
     update: yes
-    nameservers: "{{ proxmox_template_ci_nameservers }}"
-  when: proxmox_template_ci_nameservers is defined
+    nameservers: "{{ proxmox_vm_templater_ci_nameservers }}"
+  when: proxmox_vm_templater_ci_nameservers is defined
 - name: Configure cloud-init searchdomains
   proxmox_kvm:
-    api_token_id: "{{ proxmox_template_api_token_id }}"
-    api_user: "{{ proxmox_template_api_user }}"
-    api_token_secret: "{{ proxmox_template_api_token_secret }}"
-    api_host: "{{ proxmox_template_target_host }}"
-    node: "{{ proxmox_template_target_node }}"
-    name: "{{ proxmox_template_vm_hostname }}"
-    vmid: "{{ proxmox_template_vm_id }}"
+    api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
+    api_user: "{{ proxmox_vm_templater_api_user }}"
+    api_token_secret: "{{ proxmox_vm_templater_api_token_secret }}"
+    api_host: "{{ proxmox_vm_templater_target_host }}"
+    node: "{{ proxmox_vm_templater_target_node }}"
+    name: "{{ proxmox_vm_templater_vm_hostname }}"
+    vmid: "{{ proxmox_vm_templater_vm_id }}"
     update: yes
-    searchdomains: "{{ proxmox_template_ci_searchdomains }}"
-  when: proxmox_template_ci_searchdomains is defined
+    searchdomains: "{{ proxmox_vm_templater_ci_searchdomains }}"
+  when: proxmox_vm_templater_ci_searchdomains is defined
 - name: Configure cloud-init ipconfig
   proxmox_kvm:
-    api_token_id: "{{ proxmox_template_api_token_id }}"
-    api_user: "{{ proxmox_template_api_user }}"
-    api_token_secret: "{{ proxmox_template_api_token_secret }}"
-    api_host: "{{ proxmox_template_target_host }}"
-    node: "{{ proxmox_template_target_node }}"
-    name: "{{ proxmox_template_vm_hostname }}"
-    vmid: "{{ proxmox_template_vm_id }}"
+    api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
+    api_user: "{{ proxmox_vm_templater_api_user }}"
+    api_token_secret: "{{ proxmox_vm_templater_api_token_secret }}"
+    api_host: "{{ proxmox_vm_templater_target_host }}"
+    node: "{{ proxmox_vm_templater_target_node }}"
+    name: "{{ proxmox_vm_templater_vm_hostname }}"
+    vmid: "{{ proxmox_vm_templater_vm_id }}"
     update: yes
-    ipconfig: "{{ proxmox_template_ci_ipconfig }}"
-  when: proxmox_template_ci_ipconfig is defined
+    ipconfig: "{{ proxmox_vm_templater_ci_ipconfig }}"
+  when: proxmox_vm_templater_ci_ipconfig is defined
