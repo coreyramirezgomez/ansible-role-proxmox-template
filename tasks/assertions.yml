@@ -8,10 +8,17 @@
       - proxmox_vm_templater_api_token_secret is defined
       - proxmox_vm_templater_api_user is defined
       - proxmox_vm_templater_base_image_name is defined
-      - proxmox_vm_templater_base_image_url is defined
       - proxmox_vm_templater_vm_hostname is defined
       - proxmox_vm_templater_vm_id is defined
       - proxmox_vm_templater_vm_storage is defined
+- name: "Assert that only proxmox_vm_templater_base_image_url is defined"
+  assert:
+    that: proxmox_vm_templater_base_image_path is not defined
+  when: proxmox_vm_templater_base_image_url is defined
+- name: "Assert that only proxmox_vm_templater_base_image_path is defined"
+  assert:
+    that: proxmox_vm_templater_base_image_url is not defined
+  when: proxmox_vm_templater_base_image_path is defined
 - name: "Assert that only proxmox_vm_templater_ci_user_data_content is defined"
   assert:
     that: proxmox_vm_templater_ci_user_data_src_file is not defined

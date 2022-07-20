@@ -2,7 +2,6 @@
   set_fact:
     proxmox_vm_templater_delegate: "{{ proxmox_vm_templater_target_host }}"
   when: proxmox_vm_templater_meta_host
-
 - name: Collect all cloud-init configurations into single fact
   block:
     - name: "Include cicustom to proxmox_vm_templater_cloud_init_super_fact"

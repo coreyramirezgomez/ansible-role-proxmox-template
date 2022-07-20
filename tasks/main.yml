@@ -6,11 +6,20 @@
   include_tasks: "facts.yml"
 - name: Include requirements tasks
   include_tasks: "requirements.yml"
-- name: Download base image
+- name: Download base image from url
   get_url:
     url: "{{ proxmox_vm_templater_base_image_url }}"
-    dest: "/tmp/{{ proxmox_vm_templater_base_image_name }}"
+    dest: "{{ proxmox_vm_templater_base_image_dest_path }}"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
+  when: proxmox_vm_templater_base_image_url is defined
+- name: Copy base image from local path
+  copy:
+    src: "{{ proxmox_vm_templater_base_image_path }}"
+    dest: "{{ proxmox_vm_templater_base_image_dest_path }}"
+    remote_src: "{{ proxmox_vm_templater_base_image_remote_src }}"
+    mode: "0777"
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
+  when: proxmox_vm_templater_base_image_path is defined
 - name: Include virt-customize.yml tasks
   include_tasks: "virt-customize.yml"
 - name: Create Base VM
@@ -28,17 +37,22 @@
     net: "{{ proxmox_vm_templater_vm_network }}"
     format: "{{ proxmox_vm_templater_vm_format }}"
     storage: "{{ proxmox_vm_templater_vm_storage }}"
-    serial:
-      serial0: "socket"
-    vga: serial0
+    serial: "{{ proxmox_vm_templater_serial }}"
+    vga: "{{ proxmox_vm_templater_vga }}"
     state: present
-    agent: true
+    agent: "{{ proxmox_vm_templater_enable_agent }}"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
 - name: Include base-image.yml tasks
   include_tasks: base-image.yml
 - name: Include cloud-init.yml tasks
   include_tasks: cloud-init.yml
   when: proxmox_vm_templater_configure_ci
+- name: "Run extra qm utility commands"
+  command: "{{ qm_command }}"
+  when:
+    - proxmox_vm_templater_extra_qm_commands is defined
+    - proxmox_vm_templater_extra_qm_commands | length > 0
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
 - name: Create template
   proxmox_kvm:
     api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
@@ -53,7 +67,7 @@
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
 - name: Cleanup
   file:
-    path: "/tmp/{{ proxmox_vm_templater_base_image_name }}"
+    path: "{{ proxmox_vm_templater_base_image_dest_path }}"
     state: absent
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
   when: proxmox_vm_templater_cleanup

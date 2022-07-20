@@ -34,12 +34,16 @@ proxmox_vm_templater_target_node: "{{ inventory_hostname_short }}"
 ### Base image handling vars; required (with defaults)
 # Remove downloaded artifacts (base image vm)
 proxmox_vm_templater_cleanup: true
-proxmox_vm_templater_base_image_name: "jammy-server-cloudimg-amd64.img"
-proxmox_vm_templater_base_image_url: "https://cloud-images.ubuntu.com/jammy/current/{{ proxmox_vm_templater_base_image_name }}"
+### Base image handling vars; required
+# proxmox_vm_templater_base_image_name: "jammy-server-cloudimg-amd64.img"
+# Only define one:
+# proxmox_vm_templater_base_image_url: "https://cloud-images.ubuntu.com/jammy/current/{{ proxmox_vm_templater_base_image_name }}"
+# Assume the image exists on the host, otherwise change to 'false' specify a local file to copy.
+proxmox_vm_templater_base_image_remote_src: true
+# proxmox_vm_tempalter_base_image_path: "/TANK/isos/template/iso/{{ proxmox_vm_templater_base_image_name }}"
 ### Base image handling vars; optional
 # proxmox_vm_templater_base_image_commands: ""
-proxmox_vm_templater_base_image_install_pkgs:
-  - "qemu-guest-agent"
+proxmox_vm_templater_base_image_install_pkgs: []
 proxmox_vm_templater_base_image_uninstall_pkgs: []
 
 ### cloud-init handling vars; required (with defaults)
@@ -78,8 +82,17 @@ proxmox_vm_templater_vm_memory: 2048
 proxmox_vm_templater_vm_format: "raw"
 proxmox_vm_templater_vm_network:
   net0: "virtio,bridge=vmbr0"
+proxmox_vm_templater_serial:
+  serial0: "socket"
+proxmox_vm_templater_vga: "std"
+proxmox_vm_templater_enable_agent: true
+# Set controller model for the primary disk: lsi | lsi53c810 | megasas | pvscsi | virtio-scsi-pci | virtio-scsi-single
+proxmox_vm_templater_scsihw: "virtio-scsi-pci"
+# Set the controller type for the primary disk: scsi | sata
+# We will automatically append '0' to designate it as primary.
+proxmox_vm_templater_disk_controller: "scsi"
 ### Template VM handling vars; required
 # proxmox_vm_templater_vm_hostname: "template"
 # proxmox_vm_templater_vm_id: 999
 # proxmox_vm_templater_vm_storage: "local"
-
+proxmox_vm_templater_extra_qm_commands: []

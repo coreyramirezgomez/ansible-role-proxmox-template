@@ -1,6 +1,6 @@
 - name: virt-customize install packages base image
   command: |
-    virt-customize -a /tmp/{{ proxmox_vm_templater_base_image_name }} \
+    virt-customize -a {{ proxmox_vm_templater_base_image_dest_path }} \
     --install \
     {% for pkg in proxmox_vm_templater_base_image_install_pkgs %}
         {{ pkg }}{%- if not loop.last %} \{% endif %}
@@ -12,7 +12,7 @@
     - proxmox_vm_templater_base_image_install_pkgs | length > 0
 - name: virt-customize uninstall packages base image
   command: |
-    virt-customize -a /tmp/{{ proxmox_vm_templater_base_image_name }} \
+    virt-customize -a {{ proxmox_vm_templater_base_image_dest_path }} \
     --uninstall \
     {% for pkg in proxmox_vm_templater_base_image_uninstall_pkgs %}
         {{ pkg }}{%- if not loop.last %} \{% endif %}
