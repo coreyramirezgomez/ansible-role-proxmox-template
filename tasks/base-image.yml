@@ -1,4 +1,37 @@
 ---
+- name: Gather VM Facts (with qm utility)
+  block:
+    - name: "qm config {{ proxmox_vm_templater_vm_id }}"
+      command: "qm config {{ proxmox_vm_templater_vm_id }}"
+      register: config
+      delegate_to: "{{ proxmox_vm_templater_delegate }}"
+    - name: "Construct vm_info fact"
+      set_fact:
+        vm_info: |
+          {% set info = {} %}
+          {% set lines = config.stdout | split('\n') %}
+          {% for line in lines %}
+          {% set key = line.split(':')[0] %}
+          {% set val = line.split(':')[1:] | join(':') %}
+          {% set _ = info.update({key:val}) %}
+          {% endfor %}
+          {{ info }}
+    - name: "Debug vm_info"
+      debug:
+        msg: |
+          vm_info: {{ vm_info }}
+          type: {{ vm_info | type_debug }}
+          length: {{ vm_info | length }}
+          keys: {{ vm_info.keys() | list }}
+        verbosity: 1
+- name: Detach existing base image disk
+  command: "qm set {{ proxmox_vm_templater_vm_id }} --delete scsi0"
+  when: "'scsi0' in vm_info"
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
+- name: Remove existing base image disk
+  command: "qm set {{ proxmox_vm_templater_vm_id }} --delete unused0"
+  when: "'scsi0' in vm_info"
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
 - name: Import base image disk
   command: "qm importdisk {{ proxmox_vm_templater_vm_id }} /tmp/{{ proxmox_vm_templater_base_image_name }} {{ proxmox_vm_templater_vm_storage }}"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
