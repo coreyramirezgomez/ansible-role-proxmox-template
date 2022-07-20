@@ -1,8 +1,10 @@
 ---
 - name: Import base image disk
   command: "qm importdisk {{ proxmox_vm_templater_vm_id }} /tmp/{{ proxmox_vm_templater_base_image_name }} {{ proxmox_vm_templater_vm_storage }}"
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
 - name: Attach base image disk
   command: "qm set {{ proxmox_vm_templater_vm_id }} --scsihw virtio-scsi-pci --scsi0 {{ proxmox_vm_templater_vm_storage }}:vm-{{ proxmox_vm_templater_vm_id }}-disk-0"
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
 - name: Set base image disk as bootdisk
   proxmox_kvm:
     api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
@@ -15,3 +17,4 @@
     update: yes
     boot: "c"
     bootdisk: "scsi0"
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"

@@ -1,0 +1,26 @@
+- name: "Assert that api_token, api_secret, api_user, target_host, and target_node are defined"
+  assert:
+    that:
+      - proxmox_vm_templater_target_host is defined
+      - proxmox_vm_templater_target_node is defined
+      - proxmox_vm_templater_root_user_password is defined
+      - proxmox_vm_templater_api_token_id is defined
+      - proxmox_vm_templater_api_token_secret is defined
+      - proxmox_vm_templater_api_user is defined
+      - proxmox_vm_templater_base_image_name is defined
+      - proxmox_vm_templater_base_image_url is defined
+      - proxmox_vm_templater_vm_hostname is defined
+      - proxmox_vm_templater_vm_id is defined
+      - proxmox_vm_templater_vm_storage is defined
+- name: "Assert that only proxmox_vm_templater_ci_user_data_content is defined"
+  assert:
+    that: proxmox_vm_templater_ci_user_data_src_file is not defined
+  when:
+    - proxmox_vm_templater_configure_ci
+    - proxmox_vm_templater_ci_user_data_content is defined
+- name: "Assert that only proxmox_vm_templater_ci_user_data_src_file is defined"
+  assert:
+    that: proxmox_vm_templater_ci_user_data_content is not defined
+  when:
+    - proxmox_vm_templater_configure_ci
+    - proxmox_vm_templater_ci_user_data_src_file is defined

@@ -5,6 +5,7 @@
     {% for pkg in proxmox_vm_templater_base_image_install_pkgs %}
         {{ pkg }}{%- if not loop.last %} \{% endif %}
     {% endfor %}
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
   when:
     - proxmox_vm_templater_base_image_install_pkgs is defined
     - proxmox_vm_templater_base_image_install_pkgs | type_debug == 'list'
@@ -16,6 +17,7 @@
     {% for pkg in proxmox_vm_templater_base_image_uninstall_pkgs %}
         {{ pkg }}{%- if not loop.last %} \{% endif %}
     {% endfor %}
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
   when:
     - proxmox_vm_templater_base_image_uninstall_pkgs is defined
     - proxmox_vm_templater_base_image_uninstall_pkgs | type_debug == 'list'
@@ -23,4 +25,5 @@
 - name: virt-customize commands
   command: |
     {{ proxmox_vm_templater_base_image_commands }}
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
   when: proxmox_vm_templater_base_image_commands is defined

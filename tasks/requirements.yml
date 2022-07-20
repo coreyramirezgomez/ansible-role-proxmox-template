@@ -3,6 +3,7 @@
   package:
     name: "{{ pkg_var }}"
     state: present
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
   with_items: "{{ proxmox_vm_templater_required_packages }}"
   loop_control:
     loop_var: "pkg_var"
@@ -10,6 +11,7 @@
   pip:
     executable: pip3
     name: "{{ pip_var }}"
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
   with_items: "{{ proxmox_vm_templater_required_pip_packages }}"
   loop_control:
     loop_var: "pip_var"

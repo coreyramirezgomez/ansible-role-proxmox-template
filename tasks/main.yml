@@ -1,11 +1,16 @@
 ---
 # tasks file for ansible-role-proxmox-template
-- name: Include requirements.yml tasks
-  include_tasks: requirements.yml
+- name: Include assertions
+  include_tasks: "assertions.yml"
+- name: Include facts tasks
+  include_tasks: "facts.yml"
+- name: Include requirements tasks
+  include_tasks: "requirements.yml"
 - name: Download base image
   get_url:
     url: "{{ proxmox_vm_templater_base_image_url }}"
     dest: "/tmp/{{ proxmox_vm_templater_base_image_name }}"
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
 - name: Include virt-customize.yml tasks
   include_tasks: "virt-customize.yml"
 - name: Create Base VM
@@ -16,7 +21,7 @@
     node: "{{ proxmox_vm_templater_target_node }}"
     name: "{{ proxmox_vm_templater_vm_hostname }}"
     vmid: "{{ proxmox_vm_templater_vm_id }}"
-    update: no
+    update: false
     cores: "{{ proxmox_vm_templater_vm_cores }}"
     sockets: "{{ proxmox_vm_templater_vm_sockets }}"
     memory: "{{ proxmox_vm_templater_vm_memory }}"
@@ -27,7 +32,8 @@
       serial0: "socket"
     vga: serial0
     state: present
-    agent: yes
+    agent: true
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
 - name: Include base-image.yml tasks
   include_tasks: base-image.yml
 - name: Include cloud-init.yml tasks
@@ -42,10 +48,12 @@
     node: "{{ proxmox_vm_templater_target_node }}"
     name: "{{ proxmox_vm_templater_vm_hostname }}"
     vmid: "{{ proxmox_vm_templater_vm_id }}"
-    update: yes
-    template: yes
+    update: true
+    template: true
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
 - name: Cleanup
   file:
     path: "/tmp/{{ proxmox_vm_templater_base_image_name }}"
     state: absent
+  delegate_to: "{{ proxmox_vm_templater_delegate }}"
   when: proxmox_vm_templater_cleanup

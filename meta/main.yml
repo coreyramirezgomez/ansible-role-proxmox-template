@@ -3,7 +3,7 @@ dependencies: []
 galaxy_info:
   author: Corey Ramirez-Gomez
   role_name: proxmox_vm_templater
-  description: Task sequence with ansible to create Proxmox Virtual Machine template from a base image (cloud ready image at least) with optional cloud-init drive configuration.
+  description: Ansible task sequence to create Proxmox Virtual Machine template from a base image.
   license: MIT
   min_ansible_version: 2.1
   platforms:
