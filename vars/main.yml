@@ -18,3 +18,4 @@ proxmox_vm_templater_cloud_init_super_fact:
   vmid: "{{ proxmox_vm_templater_vm_id }}"
   update: true
 proxmox_vm_templater_base_image_dest_path: "/tmp/{{ proxmox_vm_templater_base_image_name }}"
+proxmox_vm_templater_cloudinit_drive_id: "ide2"
