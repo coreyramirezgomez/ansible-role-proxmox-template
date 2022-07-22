@@ -23,24 +23,7 @@
 - name: Include virt-customize.yml tasks
   include_tasks: "virt-customize.yml"
 - name: Create Base VM
-  proxmox_kvm:
-    api_user: "root@pam" # Only root + password can create a VM.
-    api_password: "{{ proxmox_vm_templater_root_user_password }}"
-    api_host: "{{ proxmox_vm_templater_target_host }}"
-    node: "{{ proxmox_vm_templater_target_node }}"
-    name: "{{ proxmox_vm_templater_vm_hostname }}"
-    vmid: "{{ proxmox_vm_templater_vm_id }}"
-    update: false
-    cores: "{{ proxmox_vm_templater_vm_cores }}"
-    sockets: "{{ proxmox_vm_templater_vm_sockets }}"
-    memory: "{{ proxmox_vm_templater_vm_memory }}"
-    net: "{{ proxmox_vm_templater_vm_network }}"
-    format: "{{ proxmox_vm_templater_vm_format }}"
-    storage: "{{ proxmox_vm_templater_vm_storage }}"
-    serial: "{{ proxmox_vm_templater_serial }}"
-    vga: "{{ proxmox_vm_templater_vga }}"
-    state: present
-    agent: "{{ proxmox_vm_templater_enable_agent }}"
+  proxmox_kvm: "{{ proxmox_vm_templater_vm_config_super_fact }}"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
 - name: Include base-image.yml tasks
   include_tasks: base-image.yml

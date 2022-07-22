@@ -8,6 +8,17 @@ proxmox_vm_templater_required_packages:
 proxmox_vm_templater_required_pip_packages:
   - "requests"
   - "proxmoxer"
+proxmox_vm_templater_vm_config_super_fact:
+  api_user: "{{ proxmox_vm_templater_api_user }}"
+  api_password: "{{ proxmox_vm_templater_root_user_password }}"
+  api_host: "{{ proxmox_vm_templater_target_host }}"
+  node: "{{ proxmox_vm_templater_target_node }}"
+  name: "{{ proxmox_vm_templater_vm_hostname }}"
+  vmid: "{{ proxmox_vm_templater_vm_id }}"
+  update: false
+  state: present
+  storage: "{{ proxmox_vm_templater_vm_storage }}"
+  agent: "{{ proxmox_vm_templater_enable_agent }}"
 proxmox_vm_templater_cloud_init_super_fact:
   api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
   api_user: "{{ proxmox_vm_templater_api_user }}"

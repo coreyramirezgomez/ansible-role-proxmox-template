@@ -76,9 +76,9 @@ proxmox_vm_templater_ci_ipconfig:
 #    - qemu-guest-agent
 
 ### Template VM handling vars; required (with defaults)
-proxmox_vm_templater_vm_cores: 2
+proxmox_vm_templater_vm_cores: 1
 proxmox_vm_templater_vm_sockets: 1
-proxmox_vm_templater_vm_memory: 2048
+proxmox_vm_templater_vm_memory: 512
 proxmox_vm_templater_vm_format: "raw"
 proxmox_vm_templater_vm_network:
   net0: "virtio,bridge=vmbr0"

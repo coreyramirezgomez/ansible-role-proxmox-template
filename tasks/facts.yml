@@ -2,6 +2,67 @@
   set_fact:
     proxmox_vm_templater_delegate: "{{ proxmox_vm_templater_target_host }}"
   when: proxmox_vm_templater_meta_host
+- name: Collect all VM configurations into single fact
+  block:
+    - name: "Include cores to proxmox_vm_templater_vm_config_super_fact"
+      set_fact:
+        proxmox_vm_templater_vm_config_super_fact: "{{ proxmox_vm_templater_vm_config_super_fact | combine({item.key: item.value}) }}"
+      when:
+        - proxmox_vm_templater_vm_cores is defined
+        - proxmox_vm_templater_vm_cores > 0
+        - proxmox_vm_templater_vm_cores  | default('', true) | trim != ''
+      with_items:
+        - { "key": "cores", "value": "{{ proxmox_vm_templater_vm_cores }}" }
+    - name: "Include sockets to proxmox_vm_templater_vm_config_super_fact"
+      set_fact:
+        proxmox_vm_templater_vm_config_super_fact: "{{ proxmox_vm_templater_vm_config_super_fact | combine({item.key: item.value}) }}"
+      when:
+        - proxmox_vm_templater_vm_sockets is defined
+        - proxmox_vm_templater_vm_sockets > 0
+        - proxmox_vm_templater_vm_sockets  | default('', true) | trim != ''
+      with_items:
+        - { "key": "sockets", "value": "{{ proxmox_vm_templater_vm_sockets }}" }
+    - name: "Include memory to proxmox_vm_templater_vm_config_super_fact"
+      set_fact:
+        proxmox_vm_templater_vm_config_super_fact: "{{ proxmox_vm_templater_vm_config_super_fact | combine({item.key: item.value}) }}"
+      when:
+        - proxmox_vm_templater_vm_memory is defined
+        - proxmox_vm_templater_vm_memory > 0
+        - proxmox_vm_templater_vm_memory  | default('', true) | trim != ''
+      with_items:
+        - { "key": "memory", "value": "{{ proxmox_vm_templater_vm_memory }}" }
+    - name: "Include network to proxmox_vm_templater_vm_config_super_fact"
+      set_fact:
+        proxmox_vm_templater_vm_config_super_fact: "{{ proxmox_vm_templater_vm_config_super_fact | combine({item.key: item.value}) }}"
+      when:
+        - proxmox_vm_templater_vm_network is defined
+        - proxmox_vm_templater_vm_network  | default('', true) | trim != ''
+      with_items:
+        - { "key": "net", "value": "{{ proxmox_vm_templater_vm_network }}" }
+    - name: "Include format to proxmox_vm_templater_vm_config_super_fact"
+      set_fact:
+        proxmox_vm_templater_vm_config_super_fact: "{{ proxmox_vm_templater_vm_config_super_fact | combine({item.key: item.value}) }}"
+      when:
+        - proxmox_vm_templater_vm_format is defined
+        - proxmox_vm_templater_vm_format  | default('', true) | trim != ''
+      with_items:
+        - { "key": "format", "value": "{{ proxmox_vm_templater_vm_format }}" }
+    - name: "Include serial to proxmox_vm_templater_vm_config_super_fact"
+      set_fact:
+        proxmox_vm_templater_vm_config_super_fact: "{{ proxmox_vm_templater_vm_config_super_fact | combine({item.key: item.value}) }}"
+      when:
+        - proxmox_vm_templater_serial is defined
+        - proxmox_vm_templater_serial  | default('', true) | trim != ''
+      with_items:
+        - { "key": "serial", "value": "{{ proxmox_vm_templater_serial }}" }
+    - name: "Include vga to proxmox_vm_templater_vm_config_super_fact"
+      set_fact:
+        proxmox_vm_templater_vm_config_super_fact: "{{ proxmox_vm_templater_vm_config_super_fact | combine({item.key: item.value}) }}"
+      when:
+        - proxmox_vm_templater_vga is defined
+        - proxmox_vm_templater_vga  | default('', true) | trim != ''
+      with_items:
+        - { "key": "vga", "value": "{{ proxmox_vm_templater_vga }}" }
 - name: Collect all cloud-init configurations into single fact
   block:
     - name: "Include cicustom to proxmox_vm_templater_cloud_init_super_fact"
