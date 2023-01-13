@@ -24,7 +24,7 @@ Playbook - proxmox_vm_templater_meta_host: false
 
     - hosts: proxmox_hosts
       roles:
-        - role: coreyramirezgomez.proxmox_vm_templater
+        - role: crg.proxmox_vm_templater
           proxmox_vm_templater_meta_host: false
           ### API vars; required (with defaults)
           proxmox_vm_templater_target_host: "{{ inventory_hostname }}"
@@ -72,9 +72,9 @@ Playbook - proxmox_vm_templater_meta_host: true
     inventories/default
     |-- host_vars
     |   |-- template-name
-    |   |   |-- coreyramirezgomez.proxmox_vm_templater.yml
+    |   |   |-- crg.proxmox_vm_templater.yml
 
-  3. Place all the configuration for the new template into the file coreyramirezgomez.proxmox_vm_templater.yml:
+  3. Place all the configuration for the new template into the file crg.proxmox_vm_templater.yml:
 
     ---
     proxmox_vm_templater_meta_host: false
@@ -117,4 +117,4 @@ Playbook - proxmox_vm_templater_meta_host: true
       become: true
       gather_facts: false # This is required otherwise ansible will try to establish connection to the VM, but we haven't even created it yet. So skip over it.
       roles:
-        - role: coreyramirezgomez.proxmox_vm_templater
+        - role: crg.proxmox_vm_templater
