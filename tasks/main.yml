@@ -1,43 +1,48 @@
 ---
 # tasks file for ansible-role-proxmox-template
-- name: Include assertions
-  include_tasks: "assertions.yml"
-- name: Include facts tasks
-  include_tasks: "facts.yml"
-- name: Include requirements tasks
-  include_tasks: "requirements.yml"
-- name: Download base image from url
-  get_url:
+- name: "Include assertions"
+  ansible.builtin.include_tasks: "assertions.yml"
+- name: "Include facts tasks"
+  ansible.builtin.include_tasks: "facts.yml"
+- name: "Include requirements tasks"
+  ansible.builtin.include_tasks: "requirements.yml"
+- name: "Download base image from url"
+  ansible.builtin.get_url:
     url: "{{ proxmox_vm_templater_base_image_url }}"
     dest: "{{ proxmox_vm_templater_base_image_dest_path }}"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
   when: proxmox_vm_templater_base_image_url is defined
-- name: Copy base image from local path
-  copy:
+- name: "Copy base image from local path"
+  ansible.builtin.copy:
     src: "{{ proxmox_vm_templater_base_image_path }}"
     dest: "{{ proxmox_vm_templater_base_image_dest_path }}"
     remote_src: "{{ proxmox_vm_templater_base_image_remote_src }}"
-    mode: "0777"
+    owner: root
+    group: root
+    mode: "0770"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
   when: proxmox_vm_templater_base_image_path is defined
-- name: Include virt-customize.yml tasks
-  include_tasks: "virt-customize.yml"
-- name: Create Base VM
-  proxmox_kvm: "{{ proxmox_vm_templater_vm_config_super_fact }}"
+- name: "Include virt-customize.yml tasks"
+  ansible.builtin.include_tasks: "virt-customize.yml"
+- name: "Create Base VM"
+  community.general.proxmox_kvm: "{{ proxmox_vm_templater_vm_config_super_fact }}"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
-- name: Include base-image.yml tasks
-  include_tasks: base-image.yml
-- name: Include cloud-init.yml tasks
-  include_tasks: cloud-init.yml
+- name: "Include base-image.yml tasks"
+  ansible.builtin.include_tasks: "base-image.yml"
+- name: "Include cloud-init.yml tasks"
+  ansible.builtin.include_tasks: "cloud-init.yml"
   when: proxmox_vm_templater_configure_ci
-- name: "Run extra qm utility commands"
-  command: "{{ qm_command }}"
+- name: "Execute Custom qm commands (with qm utility)"
+  ansible.builtin.command: "qm {{ command }}"
+  with_items: "{{ proxmox_vm_templater_custom_qm_commands }}"
+  loop_control:
+    loop_var: "command"
   when:
-    - proxmox_vm_templater_extra_qm_commands is defined
-    - proxmox_vm_templater_extra_qm_commands | length > 0
+    - proxmox_vm_templater_custom_qm_commands is defined
+    - proxmox_vm_templater_custom_qm_commands | length > 0
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
-- name: Create template
-  proxmox_kvm:
+- name: "Create template"
+  community.general.proxmox_kvm:
     api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
     api_user: "{{ proxmox_vm_templater_api_user }}"
     api_token_secret: "{{ proxmox_vm_templater_api_token_secret }}"
@@ -48,8 +53,8 @@
     update: true
     template: true
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
-- name: Cleanup
-  file:
+- name: "Cleanup"
+  ansible.builtin.file:
     path: "{{ proxmox_vm_templater_base_image_dest_path }}"
     state: absent
   delegate_to: "{{ proxmox_vm_templater_delegate }}"

@@ -1,14 +1,14 @@
 ---
-- name: Install Python Requirements
-  package:
+- name: "Install Python Requirements"
+  ansible.builtin.package:
     name: "{{ pkg_var }}"
     state: present
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
   with_items: "{{ proxmox_vm_templater_required_packages }}"
   loop_control:
     loop_var: "pkg_var"
-- name: Install Python Pacakge Requirements
-  pip:
+- name: "Install Python Pacakge Requirements"
+  ansible.builtin.pip:
     executable: pip3
     name: "{{ pip_var }}"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"

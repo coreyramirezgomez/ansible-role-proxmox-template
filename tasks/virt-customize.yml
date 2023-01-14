@@ -1,29 +1,18 @@
-- name: virt-customize install packages base image
-  command: |
-    virt-customize -a {{ proxmox_vm_templater_base_image_dest_path }} \
-    --install \
-    {% for pkg in proxmox_vm_templater_base_image_install_pkgs %}
-        {{ pkg }}{%- if not loop.last %} \{% endif %}
-    {% endfor %}
+- name: "virt-customize install packages base image"
+  ansible.builtin.command: "virt-customize -a {{ proxmox_vm_templater_base_image_dest_path }} --install {{ proxmox_vm_templater_base_image_install_pkgs | join(',') }}"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
   when:
     - proxmox_vm_templater_base_image_install_pkgs is defined
     - proxmox_vm_templater_base_image_install_pkgs | type_debug == 'list'
     - proxmox_vm_templater_base_image_install_pkgs | length > 0
-- name: virt-customize uninstall packages base image
-  command: |
-    virt-customize -a {{ proxmox_vm_templater_base_image_dest_path }} \
-    --uninstall \
-    {% for pkg in proxmox_vm_templater_base_image_uninstall_pkgs %}
-        {{ pkg }}{%- if not loop.last %} \{% endif %}
-    {% endfor %}
+- name: "virt-customize uninstall packages base image"
+  ansible.builtin.command: "virt-customize -a {{ proxmox_vm_templater_base_image_dest_path }} --uninstall {{ proxmox_vm_templater_base_image_uninstall_pkgs | join(',') }}"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
   when:
     - proxmox_vm_templater_base_image_uninstall_pkgs is defined
     - proxmox_vm_templater_base_image_uninstall_pkgs | type_debug == 'list'
     - proxmox_vm_templater_base_image_uninstall_pkgs | length > 0
-- name: virt-customize commands
-  command: |
-    {{ proxmox_vm_templater_base_image_commands }}
+- name: "virt-customize commands"
+  ansible.builtin.command: "{{ proxmox_vm_templater_base_image_commands }}"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
   when: proxmox_vm_templater_base_image_commands is defined

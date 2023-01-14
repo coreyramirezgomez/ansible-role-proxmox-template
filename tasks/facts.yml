@@ -1,11 +1,11 @@
 - name: "Set proxmox_vm_templater_delegate to proxmox host"
-  set_fact:
+  ansible.builtin.set_fact:
     proxmox_vm_templater_delegate: "{{ proxmox_vm_templater_target_host }}"
   when: proxmox_vm_templater_meta_host
 - name: Collect all VM configurations into single fact
   block:
     - name: "Include cores to proxmox_vm_templater_vm_config_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_vm_config_super_fact: "{{ proxmox_vm_templater_vm_config_super_fact | combine({item.key: item.value}) }}"
       when:
         - proxmox_vm_templater_vm_cores is defined
@@ -14,7 +14,7 @@
       with_items:
         - { "key": "cores", "value": "{{ proxmox_vm_templater_vm_cores }}" }
     - name: "Include sockets to proxmox_vm_templater_vm_config_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_vm_config_super_fact: "{{ proxmox_vm_templater_vm_config_super_fact | combine({item.key: item.value}) }}"
       when:
         - proxmox_vm_templater_vm_sockets is defined
@@ -23,7 +23,7 @@
       with_items:
         - { "key": "sockets", "value": "{{ proxmox_vm_templater_vm_sockets }}" }
     - name: "Include memory to proxmox_vm_templater_vm_config_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_vm_config_super_fact: "{{ proxmox_vm_templater_vm_config_super_fact | combine({item.key: item.value}) }}"
       when:
         - proxmox_vm_templater_vm_memory is defined
@@ -32,7 +32,7 @@
       with_items:
         - { "key": "memory", "value": "{{ proxmox_vm_templater_vm_memory }}" }
     - name: "Include network to proxmox_vm_templater_vm_config_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_vm_config_super_fact: "{{ proxmox_vm_templater_vm_config_super_fact | combine({item.key: item.value}) }}"
       when:
         - proxmox_vm_templater_vm_network is defined
@@ -40,7 +40,7 @@
       with_items:
         - { "key": "net", "value": "{{ proxmox_vm_templater_vm_network }}" }
     - name: "Include format to proxmox_vm_templater_vm_config_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_vm_config_super_fact: "{{ proxmox_vm_templater_vm_config_super_fact | combine({item.key: item.value}) }}"
       when:
         - proxmox_vm_templater_vm_format is defined
@@ -48,7 +48,7 @@
       with_items:
         - { "key": "format", "value": "{{ proxmox_vm_templater_vm_format }}" }
     - name: "Include serial to proxmox_vm_templater_vm_config_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_vm_config_super_fact: "{{ proxmox_vm_templater_vm_config_super_fact | combine({item.key: item.value}) }}"
       when:
         - proxmox_vm_templater_serial is defined
@@ -56,7 +56,7 @@
       with_items:
         - { "key": "serial", "value": "{{ proxmox_vm_templater_serial }}" }
     - name: "Include vga to proxmox_vm_templater_vm_config_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_vm_config_super_fact: "{{ proxmox_vm_templater_vm_config_super_fact | combine({item.key: item.value}) }}"
       when:
         - proxmox_vm_templater_vga is defined
@@ -66,7 +66,7 @@
 - name: Collect all cloud-init configurations into single fact
   block:
     - name: "Include cicustom to proxmox_vm_templater_cloud_init_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_cloud_init_super_fact: "{{ proxmox_vm_templater_cloud_init_super_fact | combine({item.key: item.value}) }}"
       when:
         - proxmox_vm_templater_ci_user_data_volume
@@ -77,19 +77,19 @@
             "value": "user={{ proxmox_vm_templater_ci_user_data_volume }}:snippets/{{ proxmox_vm_templater_ci_user_data_file_name }}",
           }
     - name: "Include ciuser to proxmox_vm_templater_cloud_init_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_cloud_init_super_fact: "{{ proxmox_vm_templater_cloud_init_super_fact | combine({item.key: item.value}) }}"
       with_items:
         - { "key": "ciuser", "value": "{{ proxmox_vm_templater_ci_user }}" }
       when: proxmox_vm_templater_ci_user is defined
     - name: "Include ciuser to proxmox_vm_templater_cloud_init_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_cloud_init_super_fact: "{{ proxmox_vm_templater_cloud_init_super_fact | combine({item.key: item.value}) }}"
       when: proxmox_vm_templater_ci_user is defined
       with_items:
         - { "key": "ciuser", "value": "{{ proxmox_vm_templater_ci_user }}" }
     - name: "Include cipassword to proxmox_vm_templater_cloud_init_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_cloud_init_super_fact: "{{ proxmox_vm_templater_cloud_init_super_fact | combine({item.key: item.value}) }}"
       with_items:
         - {
@@ -98,19 +98,19 @@
           }
       when: proxmox_vm_templater_ci_password is defined
     - name: "Include citype to proxmox_vm_templater_cloud_init_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_cloud_init_super_fact: "{{ proxmox_vm_templater_cloud_init_super_fact | combine({item.key: item.value}) }}"
       with_items:
         - { "key": "citype", "value": "{{ proxmox_vm_templater_ci_type }}" }
       when: proxmox_vm_templater_ci_type is defined
     - name: "Include sshkeys to proxmox_vm_templater_cloud_init_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_cloud_init_super_fact: "{{ proxmox_vm_templater_cloud_init_super_fact | combine({item.key: item.value}) }}"
       with_items:
         - { "key": "sshkeys", "value": "{{ proxmox_vm_templater_ci_sshkeys }}" }
       when: proxmox_vm_templater_ci_sshkeys is defined
     - name: "Include nameservers to proxmox_vm_templater_cloud_init_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_cloud_init_super_fact: "{{ proxmox_vm_templater_cloud_init_super_fact | combine({item.key: item.value}) }}"
       with_items:
         - {
@@ -119,7 +119,7 @@
           }
       when: proxmox_vm_templater_ci_nameservers is defined
     - name: "Include searchdomains to proxmox_vm_templater_cloud_init_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_cloud_init_super_fact: "{{ proxmox_vm_templater_cloud_init_super_fact | combine({item.key: item.value}) }}"
       with_items:
         - {
@@ -128,7 +128,7 @@
           }
       when: proxmox_vm_templater_ci_searchdomains is defined
     - name: "Include ipconfig to proxmox_vm_templater_cloud_init_super_fact"
-      set_fact:
+      ansible.builtin.set_fact:
         proxmox_vm_templater_cloud_init_super_fact: "{{ proxmox_vm_templater_cloud_init_super_fact | combine({item.key: item.value}) }}"
       with_items:
         - {
