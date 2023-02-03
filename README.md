@@ -55,8 +55,8 @@ Playbook - proxmox_vm_templater_meta_host: false
             net0: "virtio,bridge=vmbr0"
           ### Template VM handling vars; required
           proxmox_vm_templater_vm_hostname: "template"
-          proxmox_vm_templater_vm_id: 999
-          proxmox_vm_templater_vm_storage: "local"
+          proxmox_vm_templater_dest_id: 999
+          proxmox_vm_templater_storage: "local"
 
 Playbook - proxmox_vm_templater_meta_host: true
 ----------------
@@ -108,8 +108,8 @@ Playbook - proxmox_vm_templater_meta_host: true
       net0: "virtio,bridge=vmbr0"
     ### Template VM handling vars; required
     proxmox_vm_templater_vm_hostname: "template"
-    proxmox_vm_templater_vm_id: 999
-    proxmox_vm_templater_vm_storage: "local"
+    proxmox_vm_templater_dest_id: 999
+    proxmox_vm_templater_storage: "local"
 
   4. Define a playbook to deploy with the role:
 

@@ -1,8 +1,8 @@
 ---
 - name: "Gather VM Facts (with qm utility)"
   block:
-    - name: "qm config {{ proxmox_vm_templater_vm_id }}"
-      ansible.builtin.command: "qm config {{ proxmox_vm_templater_vm_id }}"
+    - name: "qm config {{ proxmox_vm_templater_dest_id }}"
+      ansible.builtin.command: "qm config {{ proxmox_vm_templater_dest_id }}"
       register: config
       delegate_to: "{{ proxmox_vm_templater_delegate }}"
     - name: "Construct vm_info fact"
@@ -25,18 +25,18 @@
           keys: {{ vm_info.keys() | list }}
         verbosity: 1
 - name: "Detach existing base image disk"
-  ansible.builtin.command: "qm set {{ proxmox_vm_templater_vm_id }} --delete {{ proxmox_vm_templater_disk_controller }}0"
+  ansible.builtin.command: "qm set {{ proxmox_vm_templater_dest_id }} --delete {{ proxmox_vm_templater_disk_controller }}0"
   when: "'{{ proxmox_vm_templater_disk_controller }}0' in vm_info"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
 - name: "Remove existing base image disk"
-  ansible.builtin.command: "qm set {{ proxmox_vm_templater_vm_id }} --delete unused0"
+  ansible.builtin.command: "qm set {{ proxmox_vm_templater_dest_id }} --delete unused0"
   when: "'{{ proxmox_vm_templater_disk_controller }}0' in vm_info"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
 - name: "Import base image disk"
-  ansible.builtin.command: "qm importdisk {{ proxmox_vm_templater_vm_id }} {{ proxmox_vm_templater_base_image_dest_path }} {{ proxmox_vm_templater_vm_storage }}"
+  ansible.builtin.command: "qm importdisk {{ proxmox_vm_templater_dest_id }} {{ proxmox_vm_templater_base_image_dest_path }} {{ proxmox_vm_templater_storage }}"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
 - name: "Attach base image disk"
-  ansible.builtin.command: "qm set {{ proxmox_vm_templater_vm_id }} --scsihw {{ proxmox_vm_templater_scsihw }} --{{ proxmox_vm_templater_disk_controller }}0 {{ proxmox_vm_templater_vm_storage }}:vm-{{ proxmox_vm_templater_vm_id }}-disk-0"
+  ansible.builtin.command: "qm set {{ proxmox_vm_templater_dest_id }} --scsihw {{ proxmox_vm_templater_scsihw }} --{{ proxmox_vm_templater_disk_controller }}0 {{ proxmox_vm_templater_storage }}:vm-{{ proxmox_vm_templater_dest_id }}-disk-0"
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
 - name: "Set base image disk as bootdisk"
   community.general.proxmox_kvm:
@@ -46,7 +46,7 @@
     api_host: "{{ proxmox_vm_templater_target_host }}"
     node: "{{ proxmox_vm_templater_target_node }}"
     name: "{{ proxmox_vm_templater_vm_hostname }}"
-    vmid: "{{ proxmox_vm_templater_vm_id }}"
+    vmid: "{{ proxmox_vm_templater_dest_id }}"
     update: true
     boot: "c"
     bootdisk: "{{ proxmox_vm_templater_disk_controller }}0"

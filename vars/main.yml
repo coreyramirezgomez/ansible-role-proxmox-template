@@ -14,10 +14,10 @@ proxmox_vm_templater_vm_config_super_fact:
   api_host: "{{ proxmox_vm_templater_target_host }}"
   node: "{{ proxmox_vm_templater_target_node }}"
   name: "{{ proxmox_vm_templater_vm_hostname }}"
-  vmid: "{{ proxmox_vm_templater_vm_id }}"
+  vmid: "{{ proxmox_vm_templater_dest_id }}"
   update: false
   state: present
-  storage: "{{ proxmox_vm_templater_vm_storage }}"
+  storage: "{{ proxmox_vm_templater_storage }}"
   agent: "{{ proxmox_vm_templater_enable_agent }}"
 proxmox_vm_templater_cloud_init_super_fact:
   api_token_id: "{{ proxmox_vm_templater_api_token_id }}"
@@ -26,7 +26,8 @@ proxmox_vm_templater_cloud_init_super_fact:
   api_host: "{{ proxmox_vm_templater_target_host }}"
   node: "{{ proxmox_vm_templater_target_node }}"
   name: "{{ proxmox_vm_templater_vm_hostname }}"
-  vmid: "{{ proxmox_vm_templater_vm_id }}"
+  vmid: "{{ proxmox_vm_templater_dest_id }}"
   update: true
 proxmox_vm_templater_base_image_dest_path: "/tmp/{{ proxmox_vm_templater_base_image_name }}"
 proxmox_vm_templater_cloudinit_drive_id: "ide2"
+proxmox_vm_templater_cicustom_fact: ""

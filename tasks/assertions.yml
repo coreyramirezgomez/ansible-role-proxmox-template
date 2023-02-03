@@ -9,8 +9,8 @@
       - proxmox_vm_templater_api_user is defined
       - proxmox_vm_templater_base_image_name is defined
       - proxmox_vm_templater_vm_hostname is defined
-      - proxmox_vm_templater_vm_id is defined
-      - proxmox_vm_templater_vm_storage is defined
+      - proxmox_vm_templater_dest_id is defined
+      - proxmox_vm_templater_storage is defined
 - name: "Assert that only proxmox_vm_templater_base_image_url is defined"
   ansible.builtin.assert:
     that: proxmox_vm_templater_base_image_path is not defined

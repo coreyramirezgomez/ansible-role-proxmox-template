@@ -112,10 +112,10 @@ proxmox_vm_templater_scsihw: "virtio-scsi-pci"
 proxmox_vm_templater_disk_controller: "scsi"
 ### Template VM handling vars; required
 # proxmox_vm_templater_vm_hostname: "template"
-# proxmox_vm_templater_vm_id: 999
-# proxmox_vm_templater_vm_storage: "local"
+# proxmox_vm_templater_dest_id: 999
+# proxmox_vm_templater_storage: "local"
 ### Template VM handling vars; optional
 # Execute qm commands when API features are unsupported.
 # All commands are prepended with 'qm', so no need to include it in the command.
 # proxmox_vm_templater_custom_qm_commands:
-#   - set {{ proxmox_vm_templater_vm_id }} -scsi1 /dev/disk/by-id/ata-really-big-disk
+#   - set {{ proxmox_vm_templater_dest_id }} -scsi1 /dev/disk/by-id/ata-really-big-disk

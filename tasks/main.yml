@@ -49,7 +49,7 @@
     api_host: "{{ proxmox_vm_templater_target_host }}"
     node: "{{ proxmox_vm_templater_target_node }}"
     name: "{{ proxmox_vm_templater_vm_hostname }}"
-    vmid: "{{ proxmox_vm_templater_vm_id }}"
+    vmid: "{{ proxmox_vm_templater_dest_id }}"
     update: true
     template: true
   delegate_to: "{{ proxmox_vm_templater_delegate }}"
